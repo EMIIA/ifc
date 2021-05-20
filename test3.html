@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+<title>xeokit - 3D Web Programming Toolkit for BIM and Engineering Visualization</title>
+
+<link href="https://xeokit.io/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://xeokit.io/css/business-frontpage.css" rel="stylesheet">
+
+
+
+
+
+
+<!-- Bootstrap core JavaScript -->
+<script src="https://xeokit.io/vendor/jquery/jquery.min.js"></script>
+<script src="https://xeokit.io/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+
+<div class="row no-gutters">
+    <iframe id="embeddedViewer" class="embedded-viewer" src=""></iframe>
+</div>
+
+</body>
+<script>
+    window.onload = function () {
+        const iframeElement = document.getElementById("embeddedViewer");
+        if (!iframeElement) {
+            throw "IFRAME not found";
+        }
+        const searchStr = window.location.search || "?projectId=Schependomlaan_selectedStorey&tab=storeys";
+        iframeElement.src = "https://xeokit.github.io/xeokit-bim-viewer/app/index.html" + searchStr;
+    };
+</script>
+</html>
