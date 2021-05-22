@@ -160,28 +160,94 @@ body {
 
 <style>
 
-/* Toolbars and buttons */
+html, body {
+    height: 100%;
+    background: #f2f2f2;
+    touch-action: none;
+}
 
-.xeokit-toolbar {
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    line-height: 1.50;
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    overflow: hidden;
+}
+
+#myViewer {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    background: transparent;
-    pointer-events: none;
-    padding: 10px;
+    width: 100%;
+    height: 100%;
+    align-items: stretch;
+    z-index: 10000;
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    transition: all 300ms ease-in-out;
 }
 
-.xeokit-btn-group {
-    position: relative;
-    display: inline-flex;
-    vertical-align: middle;
-    margin-bottom: 3px;
-    margin-right: 1.2rem !important;
+#myToolbar {
+    min-width: 400px;
+    top: 0;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    z-index: 100000;
     pointer-events: none;
+    position: fixed;
+    left: 95px;
+    transition: all 300ms ease-in-out;
 }
 
-.xeokit-btn {
+#myCanvas {
+    width: 100%;
+    height: 100%;
+    background: #f2f2f2;
+    cursor: default;
+    pointer-events: all;
+    margin: 0;
     position: relative;
+}
+
+#myNavCubeCanvas {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    bottom: 0;
+    right: 0;
+    z-index: 200000;
+}
+
+#myExplorer {
+    position: fixed;
+    height: 100%;
+    color: #fff;
+    background: #03103F;
+    overflow: auto;
+    border-right: 2px solid #212529;
+    padding: 0px;
+    padding-bottom: 100px;
+    padding-left: 15px;
+    user-select: none;
+    top: 0;
+    left: -460px;
+    z-index: 10;
+    width: 460px;
+    transition: all 300ms ease-in-out;
+}
+
+#explorer_toggle {
+    display: none;
+}
+
+.explorer_toggle_label {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     flex: 1 1 auto;
     color: #03103F;
     background-color: white;
@@ -190,800 +256,287 @@ body {
     border: 2px solid #1d2453;
     padding: .375rem .75rem;
     border-radius: .25rem;
-    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     -webkit-appearance: button;
     overflow: visible;
     margin: 0 2px 0 0;
     box-sizing: border-box;
     align-items: flex-start;
     pointer-events: all;
+    z-index: 100000;
+    transition: all 300ms ease-in-out;
 }
 
-.xeokit-btn.disabled {
-    opacity: .55;
-    color: #99A4AD;
-    border-color: #6c757d !important;
-    pointer-events: none;
+.explorer_toggle_label:hover {
+    cursor: pointer;
 }
 
-.xeokit-btn.active {
+#explorer_toggle:checked + .explorer_toggle_label {
+    left: 480px;
     color: #fff;
     background-color: #03103F;
-    border-color: #03103F !important;
+    border-color: #03103F;
 }
 
-.xeokit-btn:hover {
-    color: #477dca;
-    border-color: #477dca !important;
-}
-
-.xeokit-btn.active:hover {
-    /*color: transparent;*/
-    color: white;
-    background: #477dca;
-    border-color: #477dca !important;
-}
-
-.xeokit-btn.disabled:hover {
-    opacity: .55;
-    color: #99A4AD;
-    border-color: #6c757d !important;
-}
-
-/*  Tabs    */
-
-.xeokit-tabs {
-    line-height: 1.5;
-    padding: 0;
-    /*padding-left: 10px;*/
-    height: 100%;
-    overflow: hidden;
-}
-
-.xeokit-tabs::before, .xeokit-tabs::after {
-    display: table;
-    content: '';
-    clear: both;
-}
-
-@media (max-width: 40em) {
-    .xeokit-tabs {
-
-    }
-}
-
-.xeokit-tabs .xeokit-tab {
-    list-style: none;
-}
-
-@media (min-width: 40em) {
-    .xeokit-tabs .xeokit-tab {
-        display: inline;
-    }
-}
-
-.xeokit-tabs .xeokit-tab:first-child .xeokit-tab-btn {
-}
-
-@media (max-width: 40em) {
-    .xeokit-tabs .xeokit-tab:first-child .xeokit-tab-btn {
-    }
-}
-
-@media (max-width: 40em) {
-    .xeokit-tabs .xeokit-tab:last-child .xeokit-tab-btn {
-    }
-}
-
-.xeokit-tabs .xeokit-tab.active .xeokit-tab-btn {
-    background-color: #03103F;
-}
-
-@media (min-width: 40em) {
-    .xeokit-tabs .xeokit-tab.active .xeokit-tab-btn {
-        background-color: transparent;
-        border-bottom: #CFCFCF solid 3px;
-        margin-bottom: -1px;
-    }
-}
-
-.xeokit-tabs .xeokit-tab.active .xeokit-tab-content {
-    display: block;
-}
-
-.xeokit-tabs .xeokit-tab-btn {
-    font-size: 16px;
-    background-color: transparent;
-    border-top: 2px solid #dcdcdc;
-    color: #CFCFCF;
-    display: block;
-    font-weight: bold;
-    padding: 0.75em 5px;
-    padding-left: 0;
-    padding-right: 10px;
-    text-decoration: none;
-}
-
-@media (min-width: 40em) {
-    .xeokit-tabs .xeokit-tab-btn {
-        font-size: 20px;
-        font-weight: normal;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        border-top: 0;
-        display: inline-block;
-    }
-}
-
-.xeokit-tabs .xeokit-tab-btn:hover {
-    color: #477dca;
-}
-
-.xeokit-tabs .xeokit-tab-btn:focus {
-    outline: none;
-}
-
-.xeokit-tabs .xeokit-tab-content {
-    background: #03103F;
-    display: none;
-    padding-top: 2em;
-    padding-left: 0;
-    padding-right: 0px;
-    width: calc(100% - 0px);
-    height: calc(100% - 30px);
-}
-
-@media (min-width: 40em) {
-    .xeokit-tabs .xeokit-tab-content {
-        float: left;
-    }
-}
-
-.xeokit-tabs .xeokit-btn-group {
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    margin-bottom: 10px;
-}
-
-.xeokit-tabs .xeokit-btn {
-    font-size: 16px;
-    font-weight: normal;
-    position: relative;
-    flex: 1 1 auto;
-    color: #CFCFCF;
-    background-color: transparent;
-    text-align: center;
-    vertical-align: middle;
-    border: 2px solid #CFCFCF;
-    padding: .75rem .75rem;
-    margin: 0 5px 10px 0;
-    border-radius: .35rem;
-    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-    -webkit-appearance: button;
-    overflow: visible;
-    box-sizing: border-box;
-    align-items: flex-start;
-    /*font: 400 13.3333px Arial;*/
-}
-
-.xeokit-tabs .xeokit-btn:hover {
-    color: #477dca;
-    border: 2px solid #477dca;
-    /*background: black;*/
-}
-
-.xeokit-tabs .xeokit-tab-btn.disabled {
-    opacity: .55;
-    color: #99A4AD;
-}
-
-.xeokit-modelsTab {
-
-}
-
-.xeokit-modelsTab .xeokit-form-check {
-    padding: 2px 0 2px 15px;
-    line-height: 3ex;
-}
-
-.xeokit-modelsTab .xeokit-form-check input {
-    vertical-align: middle;
-}
-
-.xeokit-modelsTab .xeokit-form-check span {
-    display: inline-block;
-    color: #ffff;
-    background-color: #03103F;
-    padding-left: 3px;
-    width: calc(100% - 30px);
-    vertical-align: middle;
-}
-
-.xeokit-modelsTab .xeokit-form-check span.disabled {
-    color: #99A4AD;
-    background-color: #03103F;
-}
-
-.xeokit-modelsTab .xeokit-form-check span:hover {
-    color: #ffffff;
-    cursor: pointer;
-    background: rgba(255, 255, 255, 0.2);
-    padding-left: 3px;
-}
-
-.xeokit-modelsTab .xeokit-form-check span.disabled:hover {
-    color: #99A4AD;
-    background-color: #03103F;
-    cursor: default;
-}
-
-.xeokit-objectsTab ul {
-    list-style: none;
-    padding-left: 1.75em;
-}
-
-.xeokit-objectsTab ul li {
-    margin: 2px 0;
-    position: relative;
-    width: 500px;
-    line-height: 3ex;
-}
-
-.xeokit-objectsTab ul li a {
-    background-color: #eee;
-    border-radius: 50%;
-    color: #000;
-    display: inline-block;
-    height: 1.5em;
-    left: -1.5em;
-    /*line-height: 1.5em;*/
-    position: absolute;
-    text-align: center;
-    text-decoration: none;
-    width: 1.5em;
-}
-
-.xeokit-objectsTab ul li a.plus {
-    background-color: #ded;
-}
-
-.xeokit-objectsTab ul li a.minus {
-    background-color: #eee;
-}
-
-.xeokit-objectsTab ul li a:active {
-    top: 1px;
-}
-
-.xeokit-objectsTab ul li input {
-    vertical-align: middle;
-}
-
-.xeokit-objectsTab ul li span {
-    display: inline-block;
-    width: calc(100% - 50px);
-    padding-left: 2px;
-    vertical-align: middle;
-}
-
-.xeokit-objectsTab ul li span:hover {
-    color: #ffffff;
-    cursor: pointer;
-    background: rgba(255, 255, 255, 0.2);
-    padding-left: 2px;
-    vertical-align: middle;
-}
-
-.xeokit-objectsTab .top-right {
-    font-size: small;
-    position: fixed;
-    right: 1em;
-    top: 1em;
-}
-
-.xeokit-objectsTab .highlighted-node { /* Appearance of node highlighted with BIMViewer#showObjectInExplorers() */
-    border: black solid 1px;
-    background: yellow;
-    color: black;
-    padding-left: 1px;
-    padding-right: 5px;
-}
-
-.xeokit-storeysTab ul {
-    list-style: none;
-    padding-left: 1.75em;
-}
-
-.xeokit-storeysTab ul li {
-    margin: 2px 0;
-    position: relative;
-    width: 500px;
-    line-height: 3ex;
-}
-
-.xeokit-storeysTab ul li a {
-    background-color: #eee;
-    border-radius: 50%;
-    color: #000;
-    display: inline-block;
-    height: 1.5em;
-    left: -1.5em;
-    /*line-height: 1.5em;*/
-    position: absolute;
-    text-align: center;
-    text-decoration: none;
-    width: 1.5em;
-}
-
-.xeokit-storeysTab ul li a.plus {
-    background-color: #ded;
-}
-
-.xeokit-storeysTab ul li a.minus {
-    background-color: #eee;
-}
-
-.xeokit-storeysTab ul li a:active {
-    top: 1px;
-}
-
-.xeokit-storeysTab ul li input {
-    vertical-align: middle;
-}
-
-.xeokit-storeysTab ul li span {
-    display: inline-block;
-    width: calc(100% - 50px);
-    padding-left: 2px;
-    vertical-align: middle;
-}
-
-.xeokit-storeysTab ul li span:hover {
-    color: white;
-    cursor: pointer;
-    background: rgba(255, 255, 255, 0.2);
-    padding-left: 2px;
-}
-
-.xeokit-storeysTab .top-right {
-    font-size: small;
-    position: fixed;
-    right: 1em;
-    top: 1em;
-}
-
-.xeokit-storeysTab .highlighted-node { /* Appearance of node highlighted with BIMViewer#showObjectInExplorers() */
-    border: black solid 1px;
-    background: yellow;
-    color: black;
-    padding-left: 1px;
-    padding-right: 5px;
-}
-
-.xeokit-classesTab ul {
-    list-style: none;
-    padding-left: 1.75em;
-}
-
-.xeokit-classesTab ul li {
-    margin: 2px 0;
-    position: relative;
-    width: 500px;
-    line-height: 3ex;
-}
-
-.xeokit-classesTab ul li a {
-    background-color: #eee;
-    border-radius: 50%;
-    color: #000;
-    display: inline-block;
-    height: 1.5em;
-    left: -1.5em;
-    /*line-height: 1.5em;*/
-    position: absolute;
-    text-align: center;
-    text-decoration: none;
-    width: 1.5em;
-}
-
-.xeokit-classesTab ul li a.plus {
-    background-color: #ded;
-}
-
-.xeokit-classesTab ul li a.minus {
-    background-color: #eee;
-}
-
-.xeokit-classesTab ul li a:active {
-    top: 1px;
-}
-
-.xeokit-classesTab ul li input {
-    vertical-align: middle;
-}
-
-.xeokit-classesTab ul li span {
-    display: inline-block;
-    width: calc(100% - 50px);
-    padding-left: 2px;
-    vertical-align: middle;
-}
-
-.xeokit-classesTab ul li span:hover {
-    color: white;
-    cursor: pointer;
-    background: rgba(255, 255, 255, 0.2);
-    padding-left: 2px;
-    vertical-align: middle;
-}
-
-.xeokit-classesTab .top-right {
-    font-size: small;
-    position: fixed;
-    right: 1em;
-    top: 1em;
-}
-
-.xeokit-classesTab .highlighted-node { /* Appearance of node highlighted with BIMViewer#showObjectInExplorers() */
-    border: black solid 1px;
-    background: yellow;
-    color: black;
-    padding-left: 1px;
-    padding-right: 5px;
-}
-
-.xeokit-tree-panel {
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: calc(100% - 150px);
-}
-
-.xeokit-tree-panel .warn,
-.xeokit-tree-panel .warn::before,
-.xeokit-tree-panel .warn::after {
-    /*position: relative;*/
-    padding: 0;
-    margin: 0;
-}
-
-.xeokit-tree-panel .warn {
-    font-size: 20px;
-    color: transparent;
-}
-
-.xeokit-tree-panel .warn.warning {
-    display: inline-block;
-    top: 0.225em;
-    width: 1.15em;
-    height: 1.15em;
-    overflow: hidden;
-    border: none;
-    background-color: transparent;
-    border-radius: 0.625em;
-}
-
-.xeokit-tree-panel .warn.warning:before {
-    content: "";
-    display: block;
-    top: 0.0em;
-    left: 0.0em;
-    position: absolute;
-    border: transparent 0.6em solid;
-    border-bottom-color: #fd3;
-    border-bottom-width: 1em;
-    border-top-width: 0;
-    box-shadow: #999 0 1px 1px;
-}
-
-.xeokit-tree-panel .warn.warning:after {
-    display: block;
-    position: absolute;
-    top: 0.3em;
+#explorer_toggle:checked ~ #myExplorer {
     left: 0;
-    width: 100%;
-    padding: 0 1px;
-    text-align: center;
-    font-family: "Garamond";
-    content: "!";
-    font-size: 0.65em;
-    font-weight: bold;
-    color: #333;
 }
 
-/* Context menu */
-
-.xeokit-context-menu {
-    font-family: 'Roboto', sans-serif;
-    font-size: 15px;
-    display: none;
-    z-index: 300000;
-    background: rgba(255, 255, 255, 0.46);
-    border: 1px solid black;
-    border-radius: 6px;
-    padding: 0;
-    width: 200px;
+#explorer_toggle:checked ~ #myViewer {
+    left: 460px;
+    width: calc(100% - 460px);
 }
 
-.xeokit-context-menu ul {
-    list-style: none;
-    margin-left: 0;
-    margin-top: 0;
-    margin-bottom: 0;
-    padding: 0;
+#explorer_toggle:checked ~ #myToolbar {
+    left: 555px;
 }
 
-.xeokit-context-menu ul li {
-    list-style-type: none;
-    padding-left: 10px;
-    padding-right: 20px;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    color: black;
-    border-bottom: 1px solid gray;
-    background: rgba(255, 255, 255, 0.46);
-    cursor: pointer;
-    width: calc(100% - 30px);
+.xeokit-btn {
+    box-shadow: 1px 2px 1px rgba(0,0,0,0.1);
 }
-
-.xeokit-context-menu ul li:hover {
-    background: black;
-    color: white;
-    font-weight: bold;
-}
-
-.xeokit-context-menu ul li span {
-    display: inline-block;
-}
-
-.xeokit-context-menu .disabled {
-    display: inline-block;
-    color: gray;
-    cursor: default;
-    font-weight: normal;
-}
-
-.xeokit-context-menu .disabled:hover {
-    color: gray;
-    cursor: default;
-    background: #eeeeee;
-    font-weight: normal;
-}
-
-.xeokit-context-submenu {
-    font-family: 'Roboto', sans-serif;
-    font-size: 15px;
-    display: none;
-    z-index: 300000;
-    background: rgba(255, 255, 255, 0.46);
-    border: 1px solid black;
-    border-radius: 0 6px 6px 6px !important;
-    padding: 0;
-    width: 200px;
-}
-
-/* Busy modal dialog */
-
-.xeokit-busy-modal-backdrop {
-    position: relative;
-}
-
-.xeokit-busy-modal {
-    display: none;
-    position: absolute;
-    z-index: 1000000;
-    padding-top: 100px;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(3, 16, 63, 0.4);
-}
-
-.xeokit-busy-modal-content {
-    position: relative;
-    background-color: #FFFFFF;
-    margin: auto;
-    padding: 0;
-    border: 2px solid #888;
-    border-radius: 0.5em;
-    width: 30%;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    -webkit-animation-name: xeokit-busy-modal-animatetop;
-    -webkit-animation-duration: 0.6s;
-    animation-name: xeokit-busy-modal-animatetop;
-    animation-duration: .6s
-}
-
-/* Add Animation */
-@-webkit-keyframes xeokit-busy-modal-animatetop {
-    from {
-        opacity: 0
-    }
-    to {
-        opacity: 1
-    }
-}
-
-@keyframes xeokit-busy-modal-animatetop {
-    from {
-        opacity: 0
-    }
-    to {
-        opacity: 1
-    }
-}
-
-.xeokit-busy-modal-message {
-    font-size: 22px;
-    padding: 2px 14px;
-    background-color: #FFFFFF;
-    color: #212529;
-}
-
-.xeokit-busy-modal-body {
-    padding: 2px 14px;
-    margin: 20px 2px
-}
-
-/* Styles the dot that indicates the camera's current pivot position */
-
-.xeokit-camera-pivot-marker {
-    color: #ffffff;
-    line-height: 1.8;
-    text-align: center;
-    font-family: "monospace";
-    font-weight: bold;
-    position: absolute;
-    width: 25px;
-    height: 25px;
-    border-radius: 15px;
-    border: 2px solid #ebebeb;
-    background: black;
-    visibility: hidden;
-    box-shadow: 5px 5px 15px 1px #000000;
-    z-index: 1000000;
-    pointer-events: none;
-}
-
-.xeokit-section {
-
-}
-
-.xeokit-section-counter {
-    opacity: 1.0;
-    color: black;
-    padding: 1px;
-    margin: 0;
-    margin-left: 10px;
-    width: 20px;
-    height: 20px;
-    float: right;
-    font-family: 'Roboto', sans-serif;
-    font-size: 18px;
-    line-height: 1.50;
-}
-
-.xeokit-section-counter.disabled {
-    color: #99A4AD;
-}
-
-.xeokit-section-counter.active {
-    color: #fff;
-    border-color: #ebebeb;
-}
-
-.xeokit-section-counter:hover {
-    color: #477dca;
-}
-
-.xeokit-section-counter.active:hover {
-    color: white;
-}
-
-.xeokit-section-counter.disabled:hover {
-    color: #99A4AD;
-}
-
-.xeokit-section-menu-button {
-    opacity: 1.0;
-    border-radius: 5px;
-    border: 0;
-    color: black;
-    padding: 1px;
-    margin: 0;
-    margin-left: 10px;
-    width: 20px;
-    height: 20px;
-    float: right;
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    line-height: 1.50;
-}
-
-.xeokit-section-menu-button.disabled {
-    color: #99A4AD;
-    border: 0;
-}
-
-.xeokit-section-menu-button.active {
-    color: #fff;
-    border-color: #ebebeb;
-}
-
-.xeokit-section-menu-button:hover {
-    color: #477dca;
-}
-
-.xeokit-section-menu-button.active:hover {
-    color: white;
-    /*border: 2px solid #477dca;*/
-}
-
-.xeokit-section-menu-button.disabled:hover {
-    color: #99A4AD;
-}
-
-.xeokit-arrow-up {
-    width: 0;
-    height: 0;
-    display: inline-block;
-    vertical-align: middle;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid black !important;
-}
-
-.xeokit-arrow-up.disabled {
-    border-bottom: 8px solid #99A4AD !important;
-}
-
-.xeokit-arrow-up.active {
-    border-bottom: 8px solid white !important;
-}
-
-.xeokit-arrow-up:hover {
-    border-bottom: 8px solid #477dca !important;
-}
-
-.xeokit-arrow-up.active:hover {
-    border-bottom: 8px solid white !important;
-}
-
-.xeokit-arrow-up.disabled:hover {
-    border-bottom: 8px solid #99A4AD !important;
-}
-
-.xeokit-arrow-down {
-    width: 0;
-    height: 0;
-    display: inline-block;
-    vertical-align: middle;
-    border-style: solid;
-    border-width: 8px 8px 0 8px;
-    border-color: black transparent transparent transparent !important;
-}
-
-.xeokit-arrow-down.disabled {
-    color: #99A4AD !important;
-}
-
-.xeokit-arrow-down.active {
-    color: white !important;
-    border-color: white transparent transparent transparent !important;
-}
-
-.xeokit-arrow-down:hover {
-    color: white !important;
-    border-color: #477dca transparent transparent transparent !important;
-}
-
-.xeokit-arrow-down.active:hover {
-    color: white !important;
-    border-color: white transparent transparent transparent !important;
-}
-
-.xeokit-arrow-down.disabled:hover {
-    border-color: #F8F9FA transparent transparent transparent !important;
-}
-
 </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body>
+<input type="checkbox" id="explorer_toggle"/>
+<label for="explorer_toggle" class="explorer_toggle_label xeokit-btn fas fa-2x fa-sitemap"
+       data-tippy-content="Toggle explorer panel"></label>
+<div id="myExplorer"></div>
+<div id="myToolbar"></div>
+<div id="myViewer">
+    <canvas id="myCanvas"></canvas>
+    <canvas id="myNavCubeCanvas"></canvas>
+</div>
+</body>
+
+<!-- App tooltips libraries-->
+<script src="./lib/popper.js"></script>
+<script src="./lib/tippy.js"></script>
+
+<script type="module">
+
+    // Set up application
+
+    import {Server, BIMViewer} from "../dist/xeokit-bim-viewer.es.js";
+
+    window.onload = function () {
+
+        const requestParams = getRequestParams();
+
+        // Project to load into the viewer
+        const projectId = requestParams.projectId;
+        if (!projectId) {
+            return;
+        }
+
+        // Open the explorer tab?
+        const openExplorer = requestParams.openExplorer;
+        setExplorerOpen(openExplorer === "true");
+
+        const enableEditModels = (requestParams.enableEditModels === "true");
+
+        // Server client will load data from the file systems
+        const server = new Server({
+            dataDir: "./data"
+        });
+
+        // Create  BIMViewer that loads data via the Server
+        const bimViewer = new BIMViewer(server, {
+            canvasElement: document.getElementById("myCanvas"), // WebGL canvas
+            explorerElement: document.getElementById("myExplorer"), // Left panel
+            toolbarElement: document.getElementById("myToolbar"), // Toolbar
+            navCubeCanvasElement: document.getElementById("myNavCubeCanvas"),
+            busyModelBackdropElement: document.getElementById("myViewer"),
+            enableEditModels: enableEditModels
+
+        });
+
+        // Create tooltips on various HTML elements created by BIMViewer
+        tippy('[data-tippy-content]', {
+            appendTo: "parent",
+            zIndex: 100000
+        });
+
+        // Configure our viewer
+        bimViewer.setConfigs({});
+
+        // Log info on whatever objects we click with the BIMViewer's Query tool
+        bimViewer.on("queryPicked", (event) => {
+            console.log("queryPicked: " + JSON.stringify(event, null, "\t"));
+        });
+
+        bimViewer.on("addModel", (event) => { // "Add" selected in Models tab's context menu
+            console.log("addModel: " + JSON.stringify(event, null, "\t"));
+        });
+
+        bimViewer.on("editModel", (event) => { // "Edit" selected in Models tab's context menu
+            console.log("editModel: " + JSON.stringify(event, null, "\t"));
+        });
+
+        bimViewer.on("deleteModel", (event) => { // "Delete" selected in Models tab's context menu
+            console.log("deleteModel: " + JSON.stringify(event, null, "\t"));
+        });
+
+        //--------------------------------------------------------------------------------------------------------------
+        // Process page request params, which set up initial viewer state
+        //--------------------------------------------------------------------------------------------------------------
+
+        // Viewer configurations
+        const viewerConfigs = requestParams.configs;
+        if (viewerConfigs) {
+            const configNameVals = viewerConfigs.split(",");
+            for (let i = 0, len = configNameVals.length; i < len; i++) {
+                const configNameValStr = configNameVals[i];
+                const configNameVal = configNameValStr.split(":");
+                const configName = configNameVal[0];
+                const configVal = configNameVal[1];
+                bimViewer.setConfig(configName, configVal);
+            }
+        }
+
+        // Load a project
+        bimViewer.loadProject(projectId, () => {
+
+                // The project may load one or models initially.
+
+                // Withe request params, we can also specify:
+                //  - models to load
+                // - explorer tab to open
+
+
+                const modelId = requestParams.modelId;
+                if (modelId) {
+                    bimViewer.loadModel(modelId);
+                }
+
+                const tab = requestParams.tab;
+                if (tab) {
+                    bimViewer.openTab(tab);
+                }
+
+                //
+                window.setInterval((function () {
+                    var lastHash = "";
+                    return function () {
+                        const currentHash = window.location.hash;
+                        if (currentHash !== lastHash) {
+                            parseHashParams();
+                            lastHash = currentHash;
+                        }
+                    };
+                })(), 200);
+            },
+            (errorMsg) => {
+                console.error(errorMsg);
+            });
+
+        function getRequestParams() {
+            var vars = {};
+            window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, (m, key, value) => {
+                vars[key] = value;
+            });
+            return vars;
+        }
+
+        function parseHashParams() {
+            const params = getHashParams();
+            const actionsStr = params.actions;
+            if (!actionsStr) {
+                return;
+            }
+            const actions = actionsStr.split(",");
+            if (actions.length === 0) {
+                return;
+            }
+            for (var i = 0, len = actions.length; i < len; i++) {
+                const action = actions[i];
+                switch (action) {
+                    case "focusObject":
+                        const objectId = params.objectId;
+                        if (!objectId) {
+                            console.error("Param expected for `focusObject` action: 'objectId'");
+                            break;
+                        }
+                        bimViewer.setAllObjectsSelected(false);
+                        bimViewer.setObjectsSelected([objectId], true);
+                        bimViewer.flyToObject(objectId, () => {
+                            // FIXME: Showing objects in tabs involves scrolling the HTML within the tabs - disable until we know how to scroll the correct DOM element. Otherwise, that function works OK
+
+                            // bimViewer.showObjectInObjectsTab(objectId);
+                            // bimViewer.showObjectInClassesTab(objectId);
+                            // bimViewer.showObjectInStoreysTab(objectId);
+                        });
+                        break;
+                    case "focusObjects":
+                        const objectIds = params.objectIds;
+                        if (!objectIds) {
+                            console.error("Param expected for `focusObjects` action: 'objectIds'");
+                            break;
+                        }
+                        const objectIdArray = objectIds.split(",");
+                        bimViewer.setAllObjectsSelected(false);
+                        bimViewer.setObjectsSelected(objectIdArray, true);
+                        bimViewer.viewFitObjects(objectIdArray, () => {
+                        });
+                        break;
+                    case "clearFocusObjects":
+                        bimViewer.setAllObjectsSelected(false);
+                        bimViewer.viewFitAll();
+                        // TODO: view fit nothing?
+                        break;
+                    case "openTab":
+                        const tabId = params.tabId;
+                        if (!tabId) {
+                            console.error("Param expected for `openTab` action: 'tabId'");
+                            break;
+                        }
+                        bimViewer.openTab(tabId);
+                        break;
+                    default:
+                        console.error("Action not supported: '" + action + "'");
+                        break;
+                }
+            }
+        }
+
+        function getHashParams() {
+            const hashParams = {};
+            let e;
+            const a = /\+/g;  // Regex for replacing addition symbol with a space
+            const r = /([^&;=]+)=?([^&;]*)/g;
+            const d = function (s) {
+                return decodeURIComponent(s.replace(a, " "));
+            };
+            const q = window.location.hash.substring(1);
+            while (e = r.exec(q)) {
+                hashParams[d(e[1])] = d(e[2]);
+            }
+            return hashParams;
+        }
+
+        function setExplorerOpen(explorerOpen) {
+            const toggle = document.getElementById("explorer_toggle");
+            if (toggle) {
+                toggle.checked = explorerOpen;
+            }
+        }
+
+        window.bimViewer = bimViewer; // For debugging
+    };
+
+
+</script>
+
+</html>
