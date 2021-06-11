@@ -1,0 +1,15 @@
+{
+  "background_color": "transparent",
+  "description": "EMIIA.AI IFC",
+  "display": "fullscreen",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+    }
+  ],
+  "name": "EMIIA.AI MAPS",
+  "short_name": "EMIIA.AI IFC",
+  "start_url": "/ifc.html"
+}
